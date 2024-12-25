@@ -1,9 +1,7 @@
-node.name: opensearch
-discovery.type: single-node
-
 http.host: 0.0.0.0
 http.port: 9200
-
-plugins.security.disabled: true
+node.name: opensearch
+discovery.type: single-node
+plugins.security.disabled: false
 action.auto_create_index: true
 compatibility.override_main_response_version: true

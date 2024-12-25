@@ -22,11 +22,13 @@ services:
       - STUB_STATUS_HOST=frontend
     depends_on:
       - database
+      - fluent-bit
     logging:
       driver: "fluentd"
       options:
+        fluentd-async-connect: "true"
         tag: frontend
-        fluentd-address: 127.0.0.1:24224
+        fluentd-address: localhost:24224
     command: [nginx, '-g', 'daemon off;']
     restart: always
 
@@ -41,11 +43,13 @@ services:
       - cms-network
     depends_on:
       - database
+      - fluent-bit
     logging:
       driver: "fluentd"
       options:
+        fluentd-async-connect: "true"
         tag: php-fpm
-        fluentd-address: 127.0.0.1:24224
+        fluentd-address: localhost:24224
     command: >
       sh -c "if [ ! -f /var/www/html/www/install.lock ]; then
                wait-for-it database:3306 -t 60 &&
@@ -66,6 +70,8 @@ services:
       - "3306:3306"
     networks:
       - cms-network
+    depends_on:
+      - fluent-bit
     environment:
       MYSQL_ROOT_PASSWORD: 'qEmMVrRxEHdRWbdM'
       MYSQL_DATABASE: 'opencart3'
@@ -74,6 +80,7 @@ services:
     logging:
       driver: "fluentd"
       options:
+        fluentd-async-connect: "true"
         tag: database
-        fluentd-address: 127.0.0.1:24224
+        fluentd-address: localhost:24224
     restart: always

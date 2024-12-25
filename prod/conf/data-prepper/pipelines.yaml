@@ -1,5 +1,24 @@
-conditional-routing-sample-pipeline:
+cms-pipeline:
   source:
     http:
+  processor:
+    - delete_entries:
+        with_keys: ["date"]
+    - truncate:
+        entries:
+          - source_keys: ["container_id"]
+            length: 7
+    - grok:
+        match:
+          log: ['%{IPORHOST:remote_ip} - %{DATA:user_name} %{HTTPDATE:timestamp} "%{WORD:method} %{DATA:url}" %{NUMBER:response_code}']
+    - grok:
+        match:
+          log: ['%{IPORHOST:remote_ip} - %{DATA:user_name} \[%{HTTPDATE:timestamp}\] "%{WORD:method} %{DATA:url} HTTP/%{NUMBER:http_version}" %{NUMBER:response_code} %{NUMBER:body_sent} "%{DATA:referrer}" "%{DATA:http_client}"']
+    - grok:
+        match:
+          log: ['%{TIMESTAMP_ISO8601:timestamp} %{INT:pid} \[%{DATA:loglevel}\] \[%{DATA:subsystem}\] \[%{DATA:unit}\] %{GREEDYDATA:message}']
   sink:
+    - opensearch:
+        hosts: ["http://opensearch:9200"]
+        index: "cms-%{yyyy.MM.dd}"
     - stdout:

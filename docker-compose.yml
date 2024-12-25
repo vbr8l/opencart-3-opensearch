@@ -1,12 +1,11 @@
 networks:
   cms-network:
     driver: bridge
-  elastic-network:
+  opensearch-network:
     driver: bridge
 
 volumes:
   data_opencart-3:
-  data_fluentbit:
   data_opensearch:
 
 include:
