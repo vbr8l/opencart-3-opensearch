@@ -1,7 +1,7 @@
-# opencart-3-lsth-vect
+# opencart-3-opensearch
 ## Steps:
-* git clone [opencart-3-lsth-vect](https://github.com/vbr8l/opencart-3-lsth-vect.git)
-* cd opencart-3-lsth-vect
+* git clone [opencart-3-opensearch](https://github.com/vbr8l/opencart-3-opensearch.git)
+* cd opencart-3-opensearch
 * docker-compose build
 * docker-compose up
 * opencart-my-store - Web Store UI
