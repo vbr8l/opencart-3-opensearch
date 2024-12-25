@@ -1,0 +1,46 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            contains:
+              docker.container.image: nginx
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              fields:
+                event.dataset: nginx
+              fields_under_root: true
+        - condition:
+            contains:
+              docker.container.image: mysql
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              fields:
+                event.dataset: mysql
+              fields_under_root: true
+        - condition:
+            contains:
+              docker.container.image: php-fpm
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              fields:
+                event.dataset: php-fpm
+              fields_under_root: true
+
+processors:
+  #- add_host_metadata: ~
+  #- add_docker_metadata: ~
+
+output.logstash:
+  hosts: '${LOGSTASH_HOST}'

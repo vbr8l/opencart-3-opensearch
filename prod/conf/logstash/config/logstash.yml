@@ -1,0 +1,8 @@
+node.name: logstash
+path.data: /usr/share/logstash/data
+
+pipeline.workers: 1
+pipeline.batch.size: 10
+pipeline.batch.delay: 50
+
+dead_letter_queue.enable: true
