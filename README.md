@@ -6,6 +6,4 @@
 * docker-compose up
 * opencart-my-store - Web Store UI
 * opencart-my-store/admin - Admin UI
-* http://localhost:3000 - Grafana
-* http://localhost:3100/ready - To view readiness, Loki
-* http://localhost:3100/metrics To view metrics, Loki
+* http://localhost:5601 - Opensaerch Dashboards
